@@ -13,6 +13,7 @@ import android.widget.TextView;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private boolean ready = true;//flag for if all info is ready
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,24 +44,97 @@ public class RegisterActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Button submittBtn = (Button)findViewById(R.id.submittBtn);
+
+        final Button submittBtn = (Button)findViewById(R.id.submittBtn);
         submittBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText fnameText = (EditText) findViewById(R.id.fnameText);
+                ready = true;
+
+                EditText fnameText = (EditText) findViewById(R.id.fnameText);//set up all text fields
                 EditText lnameText = (EditText) findViewById(R.id.lnameText);
                 EditText emailText = (EditText) findViewById(R.id.emailText);
                 EditText passText = (EditText) findViewById(R.id.passText);
                 EditText reenterPassText = (EditText) findViewById(R.id.reenterPassText);
+                EditText userNameText = (EditText) findViewById(R.id.userNameText);
 
-                String fname = fnameText.getText().toString();
+                emptyText(fnameText);//check length for validity
+                emptyText(lnameText);
+                emptyText(emailText);
+                emptyText(passText);
+                emptyText(reenterPassText);
+                emptyText(userNameText);
+
+                checkLength(128,fnameText);//check length of necessary fields
+                checkLength(128,lnameText);
+                checkLength(128,emailText);
+                checkLength(128,passText);
+                checkLength(16,userNameText);
+
+                String fname = fnameText.getText().toString();//convert text to strings
                 String lname = lnameText.getText().toString();
                 String email = emailText.getText().toString();
                 String pass = passText.getText().toString();
                 String reenterPass = reenterPassText.getText().toString();
+                String userName = userNameText.getText().toString();
+
+                passCheck(pass, passText);//checks validity of password
+
+                if(pass.equals(reenterPass) != true){
+                    reenterPassText.setError("Passwords must match.");
+                    ready = false;
+                }
+
+                if(ready == false){
+                    submittBtn.setError("Please enter correct information above.");
+                }
+                else{//connect and verify it is a new account
+
+                }
+
+
                 //check passwords and parameters against database requirements
+
+
             }
         });
     }
 
+    public void emptyText(EditText field){
+        if(field.length()==0) {
+            field.setError("Information Missing");
+            ready = false;
+        }
+    }
+
+    public void passCheck(String password, EditText passText){
+        Boolean capital = false;//flags for password conditions
+        Boolean lower = false;
+        Boolean number = false;
+        Boolean special = false;
+
+        int i;
+        for(i = 0; i < password.length(); i++){//loop through string and check for conditions to password
+            char value = password.charAt(i);
+            if(value >= '!' && value <= '+')//special characters
+                special = true;
+            else if(value >= 'A' && value <= 'Z')//capital letters
+                capital = true;
+            else if(value >= 'a' && value <= 'z')//lower case letters
+                lower = true;
+            else if(value >= '0' && value <= '9')//number
+                number = true;
+        }
+
+        if(capital == false || lower == false || number == false || special == false){//checks to see if all conditions are true
+            ready = false;
+            passText.setError("Pleas enter password follwoing the guidlines below.");//error message for invalid passwords
+        }
+    }
+    public void checkLength(int length, EditText field){
+        if(field.length() > length){
+            field.setError("String entered is too long. Please enter a shorter one.");
+            ready = false;
+        }
+    }
 }
