@@ -14,12 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".RegisterActivity"
+            android:name="net.arch64.gofish.android.app.RegisterActivity"
             android:label="@string/title_activity_register"></activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="net.arch64.gofish.android.app.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".MainActivity">
+        <activity android:name="net.arch64.gofish.android.app.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

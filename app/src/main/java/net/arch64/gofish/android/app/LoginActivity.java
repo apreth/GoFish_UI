@@ -1,7 +1,8 @@
-package com.example.gofish;
+package net.arch64.gofish.android.app;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -28,6 +29,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.gofish.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        @SuppressLint("WrongViewCast") Button mEmailSignInButton = (Button) findViewById(R.id.email);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
