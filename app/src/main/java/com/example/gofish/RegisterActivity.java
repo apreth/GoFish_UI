@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import java.util.regex.*;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private boolean ready = true;//flag for if all info is ready
+    Pattern emailRegex = Pattern.compile("[A-Z a-z 0-9]+[@][A-Z a-z 0-9]+[.][A-Z a-z 0-9]+");
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,12 +91,11 @@ public class RegisterActivity extends AppCompatActivity {
                     submittBtn.setError("Please enter correct information above.");
                 }
                 else{//connect and verify it is a new account
+                    //check if email exists, username exists
 
                 }
 
-
                 //check passwords and parameters against database requirements
-
 
             }
         });
@@ -106,7 +107,14 @@ public class RegisterActivity extends AppCompatActivity {
             ready = false;
         }
     }
+    public void emailCheck(EditText field, String email){
+        Matcher emailMatch = emailRegex.matcher(email);
 
+        if(!emailMatch.find()){
+            ready = false;
+            field.setError("Please enter a valid email.");
+        }
+    }
     public void passCheck(String password, EditText passText){
         Boolean capital = false;//flags for password conditions
         Boolean lower = false;
@@ -133,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
     public void checkLength(int length, EditText field){
         if(field.length() > length){
-            field.setError("String entered is too long. Please enter a shorter one.");
+            field.setError("Value entered is too long. Please enter a shorter one.");
             ready = false;
         }
     }

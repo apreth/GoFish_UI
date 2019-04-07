@@ -138,7 +138,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Paasword Must Contain at least one capital letter, one lower case letter, one number, and one of the following !,',#,%,',(,),*, or +."
+        android:text="Password Must Contain at least one capital letter, one lower case letter, one number, and one of the following !,',#,%,',(,),*, or +."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reenterPassText" />
