@@ -2,18 +2,23 @@
 package net.arch64.gofish.android.client;
 
 /* Imports */
+
+import com.google.gson.Gson;
+
 import net.arch64.gofish.android.users.User;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /* Class: Client */
 public class Client {
     private Socket sock;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
+    private BufferedReader in;
+    private PrintWriter out;
+    private Gson gson;
 
     /**
      * Client
@@ -30,11 +35,12 @@ public class Client {
             sock = new Socket(addr, port);
 
             if (sock != null) {
-                out = new ObjectOutputStream(sock.getOutputStream());
-                //in = new ObjectInputStream(sock.getInputStream());
+                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                out = new PrintWriter(sock.getOutputStream());
             }
         } catch (IOException e) {}
         this.sock = sock;
+        gson = new Gson();
     }
 
     /**
@@ -47,9 +53,8 @@ public class Client {
      */
     public boolean authenticate(String user, String pass) {
         Message msg = new Message("auth", new User(user, pass));
-        try {
-            out.writeObject(msg);
-        } catch (IOException e) { e.printStackTrace(); }
+        out.write(gson.toJson(msg));
+        out.flush();
         return false;
     }
 
@@ -59,9 +64,10 @@ public class Client {
      * Function to test server connection.
      */
     public void msgServer() {
-        try {
-            out.writeObject(new Message("Hello World!", null));
-        } catch (IOException e) { e.printStackTrace(); }
+        String json = gson.toJson(new Message("Hello World!", null));
+        System.out.println("JSON STRING: " + json);
+        out.write(gson.toJson(new Message("Hello World!", null)));
+        out.flush();
     }
 
     /**
@@ -71,8 +77,8 @@ public class Client {
      */
     public void close() {
         try {
-            if (out != null) { out.close(); }
             if (in != null) { in.close(); }
+            if (out != null) { out.close(); }
             if (sock != null) { sock.close(); }
         } catch (IOException e) {}
     }

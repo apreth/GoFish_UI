@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
+import net.arch64.gofish.android.users.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -62,9 +63,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = emailText.getText().toString();
                 String pass = passText.getText().toString();
                 String reenterPass = reenterPassText.getText().toString();
+
                 //check passwords and parameters against database requirements
                 Client client = new Client("10.0.2.2", 12345);
-                client.msgServer();
+                client.authenticate("test", pass);
+                //client.msgServer();
                 client.close();
             }
         });
