@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.regex.*;
@@ -15,7 +17,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private boolean ready = true;//flag for if all info is ready
-    Pattern emailRegex = Pattern.compile("[A-Z a-z 0-9]+[@][A-Z a-z 0-9]+[.][A-Z a-z 0-9]+");
+
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^" +//regex pattern for passwords
+            "(?=.*[0-9])" +         //at least 1 digit
+            "(?=.*[a-z])" +         //at least 1 lower case letter
+            "(?=.*[A-Z])" +         //at least 1 upper case letter
+            "(?=.*[a-zA-Z])" +      //any letter
+            "(?=.*[@#$%^&+=!,?;:,/])" +    //at least 1 special character
+            "(?=\\S+$)" +           //no white spaces
+            ".{4,}" +               //at least 4 characters
+            "$");
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -60,7 +71,10 @@ public class RegisterActivity extends AppCompatActivity {
                 EditText reenterPassText = (EditText) findViewById(R.id.reenterPassText);
                 EditText userNameText = (EditText) findViewById(R.id.userNameText);
 
-                emptyText(fnameText);//check length for validity
+                CheckBox notifyCheckBox = findViewById(R.id.notifyCheckBox);
+                boolean notify = notifyCheckBox.isChecked();//is the email notificaiton box selected
+
+                emptyText(fnameText);//check to make sure fields are not empty
                 emptyText(lnameText);
                 emptyText(emailText);
                 emptyText(passText);
@@ -81,21 +95,22 @@ public class RegisterActivity extends AppCompatActivity {
                 String userName = userNameText.getText().toString();
 
                 passCheck(pass, passText);//checks validity of password
+                emailCheck(emailText, email);
 
-                if(pass.equals(reenterPass) != true){
+                if(pass.equals(reenterPass) != true){//checks if passwords match
                     reenterPassText.setError("Passwords must match.");
                     ready = false;
                 }
 
-                if(ready == false){
+                if(ready == false){//fields are not properly filled in
                     submittBtn.setError("Please enter correct information above.");
                 }
-                else{//connect and verify it is a new account
-                    //check if email exists, username exists
+                else{
+                    submittBtn.setError(null);
+                    //TODO: check if email exists, username exists
+                    //TODO: connect to databse, check if username is used, create new profile, launch to next page
 
                 }
-
-                //check passwords and parameters against database requirements
 
             }
         });
@@ -103,40 +118,25 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void emptyText(EditText field){
         if(field.length()==0) {
-            field.setError("Information Missing");
+            field.setError("Field cannot be left empty.");
             ready = false;
         }
     }
     public void emailCheck(EditText field, String email){
-        Matcher emailMatch = emailRegex.matcher(email);
-
-        if(!emailMatch.find()){
+        if(email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             ready = false;
-            field.setError("Please enter a valid email.");
+            field.setError("Please enter a valid email address.");
+        }
+        else{
+            field.setError(null);
         }
     }
-    public void passCheck(String password, EditText passText){
-        Boolean capital = false;//flags for password conditions
-        Boolean lower = false;
-        Boolean number = false;
-        Boolean special = false;
-
-        int i;
-        for(i = 0; i < password.length(); i++){//loop through string and check for conditions to password
-            char value = password.charAt(i);
-            if(value >= '!' && value <= '+')//special characters
-                special = true;
-            else if(value >= 'A' && value <= 'Z')//capital letters
-                capital = true;
-            else if(value >= 'a' && value <= 'z')//lower case letters
-                lower = true;
-            else if(value >= '0' && value <= '9')//number
-                number = true;
-        }
-
-        if(capital == false || lower == false || number == false || special == false){//checks to see if all conditions are true
+    public void passCheck(String password, EditText passText){//validates password strength
+         if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            passText.setError("Password too weak");
             ready = false;
-            passText.setError("Pleas enter password follwoing the guidlines below.");//error message for invalid passwords
+        } else {
+            passText.setError(null);
         }
     }
     public void checkLength(int length, EditText field){
