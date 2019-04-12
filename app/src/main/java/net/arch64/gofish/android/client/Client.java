@@ -55,7 +55,12 @@ public class Client {
         Message msg = new Message("auth", new User(user, pass));
         out.write(gson.toJson(msg));
         out.flush();
-        return false;
+        return true;
+    }
+
+    public boolean newUser(String user, String password, String fname, String lname, String email, boolean em_notify) {
+        Message msg = new Message("registration", null);
+        return true;
     }
 
     /**
