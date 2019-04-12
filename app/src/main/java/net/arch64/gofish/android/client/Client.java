@@ -3,8 +3,6 @@ package net.arch64.gofish.android.client;
 
 /* Imports */
 
-import com.google.gson.Gson;
-
 import net.arch64.gofish.android.users.User;
 
 import java.io.BufferedReader;
@@ -12,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import com.google.gson.Gson;
 
 /* Class: Client */
 public class Client {
