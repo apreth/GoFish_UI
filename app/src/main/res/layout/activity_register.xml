@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context="net.arch64.gofish.android.app.RegisterActivity">
 
     <EditText
         android:id="@+id/userNameText"

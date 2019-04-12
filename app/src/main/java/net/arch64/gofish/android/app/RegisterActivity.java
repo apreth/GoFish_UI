@@ -1,4 +1,4 @@
-package com.example.gofish;
+package net.arch64.gofish.android.app;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.regex.*;
+
+import com.example.gofish.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
