@@ -15,6 +15,9 @@ import java.util.regex.*;
 
 import com.example.gofish.R;
 
+import net.arch64.gofish.android.client.Client;
+import net.arch64.gofish.android.users.User;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -94,26 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = emailText.getText().toString();
                 String pass = passText.getText().toString();
                 String reenterPass = reenterPassText.getText().toString();
-                String userName = userNameText.getText().toString();
 
-                passCheck(pass, passText);//checks validity of password
-                emailCheck(emailText, email);
-
-                if(pass.equals(reenterPass) != true){//checks if passwords match
-                    reenterPassText.setError("Passwords must match.");
-                    ready = false;
-                }
-
-                if(ready == false){//fields are not properly filled in
-                    submittBtn.setError("Please enter correct information above.");
-                }
-                else{
-                    submittBtn.setError(null);
-                    //TODO: check if email exists, username exists
-                    //TODO: connect to databse, check if username is used, create new profile, launch to next page
-
-                }
-
+                //check passwords and parameters against database requirements
+                Client client = new Client("10.0.2.2", 12345);
+                client.authenticate("test", pass);
+                //client.msgServer();
+                client.close();
             }
         });
     }
