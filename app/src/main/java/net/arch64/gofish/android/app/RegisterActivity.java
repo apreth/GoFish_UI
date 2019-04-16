@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        final Button submittBtn = (Button)findViewById(R.id.submittBtn);
+        final Button submittBtn = (Button)findViewById(R.id.submitBtn);
         submittBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

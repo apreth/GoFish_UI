@@ -44,20 +44,20 @@ public class Client {
 
     /**
      * authenticate
-     * @param user - the user to be authenticated
+     * @param email - the user to be authenticated
      * @param pass - the password of that user
      *
      * Connects back to Seasick Server and tries to
      * authenticate the user.
      */
-    public boolean authenticate(String user, String pass) {
-        Message msg = new Message("auth", new User(user, pass));
+    public boolean authenticate(String email, String pass) {
+        Message msg = new Message("auth", new User(email, pass));
         out.write(gson.toJson(msg));
         out.flush();
         return true;
     }
 
-    public boolean newUser(String user, String pass, String fname, String lname, String email, boolean em_notify) {
+    public boolean register(String user, String pass, String fname, String lname, String email, boolean em_notify) {
         Message msg = new Message("registration", new User(user, pass, email, fname, lname, em_notify));
         out.write(gson.toJson(msg));
         out.flush();

@@ -32,6 +32,8 @@ import android.widget.TextView;
 
 import com.example.gofish.R;
 
+import net.arch64.gofish.android.client.Client;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -188,8 +190,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
+            Client client = new Client("10.0.2.2.", 12345);
+            client.authenticate(email, password);
+            client.close();
         }
     }
 

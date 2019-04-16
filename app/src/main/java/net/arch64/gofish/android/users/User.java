@@ -14,14 +14,14 @@ public class User {
 
     /**
      * User
-     * @param user - username
+     * @param email - username
      * @param pass - password
      *
      * Constructor for the user class.
      * This one is primarily used for user auth.
      */
-    public User(String user, String pass) {
-        this.username = user;
+    public User(String email, String pass) {
+        this.email = email;
         this.password = pass;
     }
 
