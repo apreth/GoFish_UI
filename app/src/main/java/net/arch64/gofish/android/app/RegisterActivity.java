@@ -69,40 +69,44 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ready = true;
 
+                EditText userNameText = (EditText) findViewById(R.id.userNameText);
                 EditText fnameText = (EditText) findViewById(R.id.fnameText);//set up all text fields
                 EditText lnameText = (EditText) findViewById(R.id.lnameText);
                 EditText emailText = (EditText) findViewById(R.id.emailText);
                 EditText passText = (EditText) findViewById(R.id.passText);
                 EditText reenterPassText = (EditText) findViewById(R.id.reenterPassText);
-                EditText userNameText = (EditText) findViewById(R.id.userNameText);
-
                 CheckBox notifyCheckBox = findViewById(R.id.notifyCheckBox);
-                boolean notify = notifyCheckBox.isChecked();//is the email notificaiton box selected
 
-                emptyText(fnameText);//check to make sure fields are not empty
+                // check to make sure fields are not empty
+                emptyText(userNameText);
+                emptyText(fnameText);
                 emptyText(lnameText);
                 emptyText(emailText);
                 emptyText(passText);
                 emptyText(reenterPassText);
-                emptyText(userNameText);
 
-                checkLength(128,fnameText);//check length of necessary fields
+                // check length of necessary fields
+                checkLength(128,fnameText);
                 checkLength(128,lnameText);
                 checkLength(128,emailText);
                 checkLength(128,passText);
                 checkLength(16,userNameText);
 
-                String fname = fnameText.getText().toString();//convert text to strings
+                // convert text to strings
+                String user = userNameText.getText().toString();
+                String fname = fnameText.getText().toString();
                 String lname = lnameText.getText().toString();
                 String email = emailText.getText().toString();
                 String pass = passText.getText().toString();
                 String reenterPass = reenterPassText.getText().toString();
+                boolean notify = notifyCheckBox.isChecked();
 
                 //check passwords and parameters against database requirements
-                Client client = new Client("10.0.2.2", 12345);
-                client.authenticate("test", pass);
-                //client.msgServer();
-                client.close();
+                if (ready) {
+                    Client client = new Client("10.0.2.2", 12345);
+                    client.register(user, pass, fname, lname, email, notify);
+                    client.close();
+                }
             }
         });
     }
