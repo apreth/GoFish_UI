@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="16dp" />
-
+s
     <EditText
         android:id="@+id/reenterPassText"
         android:layout_width="wrap_content"
