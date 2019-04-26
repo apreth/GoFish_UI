@@ -20,6 +20,9 @@
             android:name="net.arch64.gofish.android.app.RegisterActivity"
             android:label="@string/title_activity_register"></activity>
         <activity
+            android:name="net.arch64.gofish.android.app.ForumActivity"
+            android:label="ForumActivity" />
+        <activity
             android:name="net.arch64.gofish.android.app.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name="net.arch64.gofish.android.app.MainActivity">

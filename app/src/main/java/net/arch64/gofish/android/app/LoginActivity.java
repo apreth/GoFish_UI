@@ -202,6 +202,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (authd.getMsg().equals("true")) {
                 // TODO: send user to forum page
                 // User ID is contained in authd.getUser().getId()
+                Intent forumIntent = new Intent(getApplicationContext(), ForumActivity.class);
+                startActivity(forumIntent);
             } else {
                 Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginIntent);
