@@ -1,5 +1,6 @@
 package net.arch64.gofish.android.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -104,8 +105,16 @@ public class RegisterActivity extends AppCompatActivity {
                 //check passwords and parameters against database requirements
                 if (ready) {
                     Client client = new Client("10.0.2.2", 12345);
-                    client.register(user, pass, fname, lname, email, notify);
+                    boolean registered = client.register(user, pass, fname, lname, email, notify);
                     client.close();
+
+                    if (registered == true) {
+                        Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(loginIntent);
+                    } else {
+                        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(mainActivityIntent);
+                    }
                 }
             }
         });

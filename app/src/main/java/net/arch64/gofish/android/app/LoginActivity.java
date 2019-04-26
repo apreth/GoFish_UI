@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
+import net.arch64.gofish.android.client.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,14 +190,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // form field with an error.
             focusView.requestFocus();
         } else {
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
+
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
             Client client = new Client("10.0.2.2", 12345);
-            client.authenticate(email, password);
+            Message authd = client.authenticate(email, password);
             client.close();
+            if (authd.getMsg().equals("true")) {
+                // TODO: send user to forum page
+                // User ID is contained in authd.getUser().getId()
+            } else {
+                Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(loginIntent);
+            }
         }
     }
 

@@ -13,6 +13,16 @@ public class Message implements Serializable {
 
     /**
      * Message
+     *
+     * Constructor for the Message class.
+     * Used to create a blank message (useful for message receiving).
+     */
+    public Message() {
+
+    }
+
+    /**
+     * Message
      * @param msg
      * //@param user
      *
