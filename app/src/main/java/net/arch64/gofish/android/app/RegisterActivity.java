@@ -109,6 +109,10 @@ public class RegisterActivity extends AppCompatActivity {
                     client.register(user, pass, fname, lname, email, notify);
                     client.close();
 
+                    //TODO remove below before merging
+                    Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(profileIntent);
+
                 }
             }
         });
