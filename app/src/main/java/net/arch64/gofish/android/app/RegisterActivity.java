@@ -1,5 +1,6 @@
 package net.arch64.gofish.android.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,7 @@ import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
 import net.arch64.gofish.android.users.User;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -106,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Client client = new Client("10.0.2.2", 12345);
                     client.register(user, pass, fname, lname, email, notify);
                     client.close();
+
                 }
             }
         });
