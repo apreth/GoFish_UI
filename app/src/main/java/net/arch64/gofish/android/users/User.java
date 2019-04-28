@@ -45,4 +45,13 @@ public class User {
         this.lname = lname;
         this.em_notify = em_notify;
     }
+
+    public int getId() { return id; }					/** getId: @return id */
+    public String getUsername() { return username; }	/** getUsername: @return username */
+    public String getPassword() { return password; }	/** getPassword: @return password */
+    public String getEmail() { return email; }			/** getEmail: @return email */
+    public String getFname() { return fname; }			/** getFname: @return fname */
+    public String getLname() { return lname; }			/** getLname: @return lname */
+    public boolean getEmNotify() { return em_notify; }	/** getEmNotify: @return em_notify */
+    public double getRep() { return rep; }				/** getRep: @return rep */
 }
