@@ -29,7 +29,9 @@ import android.widget.Toast;
 
 import com.example.gofish.R;
 
+import net.arch64.gofish.android.client.Client;
 import net.arch64.gofish.android.client.Cookie;
+import net.arch64.gofish.android.users.User;
 
 import java.io.IOException;
 import java.util.ArrayList;

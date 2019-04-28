@@ -3,6 +3,8 @@ package net.arch64.gofish.android.client;
 
 /* Imports */
 
+import android.util.Log;
+
 import net.arch64.gofish.android.users.User;
 
 import java.io.BufferedReader;
@@ -86,12 +88,12 @@ public class Client {
         Message msg = new Message("profilepage", sendUser);
         out.write(gson.toJson(msg) + "\n");
         out.flush();
-        User profileDataUser = null;
+        Message receive = new Message();
         try {
             String line = in.readLine();
-            profileDataUser = gson.fromJson(line, profileDataUser.getClass());
+            receive = gson.fromJson(line, receive.getClass());
         } catch (IOException e) {}
-        return profileDataUser;
+        return receive.getUser();
     }
 
     /**
