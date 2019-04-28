@@ -38,5 +38,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        Button forumbtn = (Button)findViewById(R.id.ForumPage);
+        forumbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forumIntent = new Intent(getApplicationContext(), ForumActivity.class);
+                startActivity(forumIntent);
+
+            }
+        });
     }
 }
