@@ -43,13 +43,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="right"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/upvote"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:background="@color/design_default_color_primary"
             android:text="Upvote"
@@ -59,10 +59,11 @@
         <Button
             android:id="@+id/downvote"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:background="@color/design_default_color_primary"
             android:text="Downvote"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="16dp"
             android:textColor="@android:color/background_light" />
     </LinearLayout>
 </LinearLayout>

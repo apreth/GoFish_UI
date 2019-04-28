@@ -17,8 +17,6 @@ import java.util.ArrayList;
 public class ForumAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
-    //private Button upvote;
-    //private Button downvote;
 
     public ForumAdapter(ArrayList<String> list, Context context) {
         this.list = list;
@@ -52,6 +50,8 @@ public class ForumAdapter extends BaseAdapter implements ListAdapter {
         TextView content = (TextView)view.findViewById(R.id.content);
         final Button upvote = (Button)view.findViewById(R.id.upvote);
         final Button downvote = (Button)view.findViewById(R.id.downvote);
+
+        title.setText(list.get(position));
 
         upvote.setOnClickListener(new View.OnClickListener() {
             @Override
