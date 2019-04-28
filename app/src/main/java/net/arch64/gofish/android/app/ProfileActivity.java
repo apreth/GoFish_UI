@@ -24,14 +24,16 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        //User user = new User();
+
         //TODO: call databse and get info
-        Client client = new Client("10.0.2.2", 12345);//Connect to database and retreive necessary user info
+        //Client client = new Client("10.0.2.2", 12345);//Connect to database and retreive necessary user info
         //get info
-        String fname = User.getFname();
-        String lname = User.getLname;
-        String email = User.getEmail;
-        String userName = User.getUsername;
-        client.close();//close connection
+        //String fname = user.getFname();
+        //String lname = user.getLname();
+        //String email = user.getEmail();
+        //String userName = user.getUsername();
+        //client.close();//close connection
 
         TextView fnameText = (TextView) findViewById(R.id.fnameTextView);//find the text views so that they can be changed
         TextView lnameText = (TextView) findViewById(R.id.lnameTextView);
@@ -39,10 +41,12 @@ public class ProfileActivity extends AppCompatActivity {
         TextView userNameText = (TextView) findViewById(R.id.userNameTextView);
 
 //add once pulled from database
+        /*
         fnameText.setText(fname);//input info into each respective text view so that user sees their info
         lnameText.setText(lname);
         emailText.setText(email);
         userNameText.setText(userName);
+        */
         //reputation
 
         //if photo is null option

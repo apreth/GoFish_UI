@@ -45,4 +45,10 @@ public class User {
         this.lname = lname;
         this.em_notify = em_notify;
     }
+
+    public String getUsername() { return username; }	/** getUsername: @return username */
+    public String getEmail() { return email; }			/** getEmail: @return email */
+    public String getFname() { return fname; }			/** getFname: @return fname */
+    public String getLname() { return lname; }			/** getLname: @return lname */
+
 }
