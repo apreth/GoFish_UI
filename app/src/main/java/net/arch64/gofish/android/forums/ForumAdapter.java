@@ -1,6 +1,7 @@
 package net.arch64.gofish.android.forums;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 public class ForumAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
+    //private Button upvote;
+    //private Button downvote;
 
     public ForumAdapter(ArrayList<String> list, Context context) {
         this.list = list;
@@ -53,13 +56,12 @@ public class ForumAdapter extends BaseAdapter implements ListAdapter {
         upvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (upvote.getText().equals("upvote")) {
-                    upvote.setBackgroundColor(50);
-                    upvote.setText("upvoted ✔");
+                Log.d("UPVOTETEXT", upvote.getText().toString());
+                if (upvote.getText().toString().equals("Upvote")) {
+                    upvote.setText("Upvoted ✔");
                     downvote.setEnabled(false);
-                } else if (upvote.getText().equals("upvoted ✔")) {
-                    upvote.setBackgroundColor(100);
-                    upvote.setText("upvote");
+                } else if (upvote.getText().toString().equals("Upvoted ✔")) {
+                    upvote.setText("Upvote");
                     downvote.setEnabled(true);
                 }
             }
@@ -68,13 +70,11 @@ public class ForumAdapter extends BaseAdapter implements ListAdapter {
         downvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (downvote.getText().equals("downvote")) {
-                    downvote.setBackgroundColor(50);
-                    downvote.setText("downvoted ✗");
+                if (downvote.getText().toString().equals("Downvote")) {
+                    downvote.setText("Downvoted ✗");
                     upvote.setEnabled(false);
-                } else if (downvote.getText().equals("downvoted ✗")) {
-                    downvote.setBackgroundColor(100);
-                    downvote.setText("downvote");
+                } else if (downvote.getText().toString().equals("Downvoted ✗")) {
+                    downvote.setText("Downvote");
                     upvote.setEnabled(true);
                 }
             }

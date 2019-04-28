@@ -34,6 +34,7 @@ import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
 import net.arch64.gofish.android.client.Cookie;
+import net.arch64.gofish.android.forums.ForumAdapter;
 import net.arch64.gofish.android.users.User;
 
 import java.io.IOException;
@@ -105,8 +106,11 @@ public class ForumActivity extends AppCompatActivity {
             forumList.add(names[i]);
         }
 
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, forumList);
-        forumListView.setAdapter(listAdapter);
+        //ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, forumList);
+        //forumListView.setAdapter(listAdapter);
+
+        ForumAdapter forumAdapter = new ForumAdapter(forumList, this);
+        forumListView.setAdapter(forumAdapter);
 
         locMan = (LocationManager) getSystemService(LOCATION_SERVICE);
         locLst = new LocationListener() {
