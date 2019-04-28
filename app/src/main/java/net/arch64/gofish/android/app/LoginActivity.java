@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
+import net.arch64.gofish.android.client.Cookie;
 import net.arch64.gofish.android.client.Message;
 
 import java.util.ArrayList;
@@ -202,6 +203,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (authd.getMsg().equals("true")) {
                 // TODO: send user to forum page
                 // User ID is contained in authd.getUser().getId()
+                Cookie.setUser(authd.getUser());
                 Intent forumIntent = new Intent(getApplicationContext(), ForumActivity.class);
                 startActivity(forumIntent);
             } else {

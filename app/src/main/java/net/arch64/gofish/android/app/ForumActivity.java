@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import com.example.gofish.R;
 
+import net.arch64.gofish.android.client.Cookie;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,7 @@ public class ForumActivity extends AppCompatActivity {
         String[] names = {"Joe", "Chris", "Rory", "Austin", "Megan",
                 "Benny", "Chrissy", "Yater", "Walter", "Bob",
                 "Jennifer", "Penny", "Tristen", "Katie", "Owen",
-                "Luke", "Pizza", "Obi Wan", "Darth Vader"};
+                "Luke", "Pizza", "Obi Wan", "Darth Vader", "" + Cookie.getUserId()};
         for (int i = 0; i < names.length; i++) {
             forumList.add(names[i]);
         }

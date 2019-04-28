@@ -80,6 +80,20 @@ public class Client {
         return false;
     }
 
+    public User profilePageRequest(int id) {
+        User sendUser = new User();
+        sendUser.setId(id);
+        Message msg = new Message("profilepage", sendUser);
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        User profileDataUser = null;
+        try {
+            String line = in.readLine();
+            profileDataUser = gson.fromJson(line, profileDataUser.getClass());
+        } catch (IOException e) {}
+        return profileDataUser;
+    }
+
     /**
      * msgServer
      *
