@@ -67,7 +67,7 @@ public class ForumActivity extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), ForumActivity.class);
                         break;
                     case "Make Forum Post":
-                        //intent = new Intent(getApplicationContext(), ForumActivity.class);
+                        intent = new Intent(getApplicationContext(), WritePostActivity.class);
                         break;
                     case "Profile Page":
                         intent = new Intent(getApplicationContext(), ProfileActivity.class);
