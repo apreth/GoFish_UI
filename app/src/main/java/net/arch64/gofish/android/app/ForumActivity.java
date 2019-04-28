@@ -12,9 +12,12 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -42,6 +45,7 @@ public class ForumActivity extends AppCompatActivity {
     private LocationManager locMan;
     private LocationListener locLst;
     private TextView locTextView;
+    private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,35 @@ public class ForumActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forum);
 
         locTextView = (TextView) findViewById(R.id.locTextView);
+
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.getMenu().getItem(0).setChecked(true);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                //Log.d("NAV_TITLE", menuItem.getTitle().toString());
+                Intent intent = null;
+                switch(menuItem.getTitle().toString()) {
+                    case "Forums":
+                        intent = new Intent(getApplicationContext(), ForumActivity.class);
+                        break;
+                    case "Make Forum Post":
+                        //intent = new Intent(getApplicationContext(), ForumActivity.class);
+                        break;
+                    case "Profile Page":
+                        intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
+                    default:
+                        intent = new Intent(getApplicationContext(), ForumActivity.class);
+                        break;
+                }
+                menuItem.setChecked(true);
+                if (intent != null) {
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
 
         ListView forumListView = (ListView) findViewById(R.id.forumList);
         setListViewHeightBasedOnChildren(forumListView);
