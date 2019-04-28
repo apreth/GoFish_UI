@@ -12,32 +12,32 @@
 
 
         <TextView
-            android:id="@+id/animal"
+            android:id="@+id/title"
             android:layout_width="600dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="animal"
+            android:text="title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="0dp">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="600dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000"
             android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:text="1"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#000" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -47,18 +47,22 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/upvote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/plus"
             android:layout_marginLeft="20dp"
-            android:text="Plus"
-            android:textColor="#000" />
+            android:background="@color/design_default_color_primary"
+            android:text="Upvote"
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/background_light" />
 
         <Button
+            android:id="@+id/downvote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/minus"
-            android:text="Minus"
-            android:textColor="#000" />
+            android:background="@color/design_default_color_primary"
+            android:text="Downvote"
+            android:layout_marginLeft="5dp"
+            android:textColor="@android:color/background_light" />
     </LinearLayout>
 </LinearLayout>
