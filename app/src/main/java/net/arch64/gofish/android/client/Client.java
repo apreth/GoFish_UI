@@ -5,6 +5,7 @@ package net.arch64.gofish.android.client;
 
 import android.util.Log;
 
+import net.arch64.gofish.android.forums.Forum;
 import net.arch64.gofish.android.users.User;
 
 import java.io.BufferedReader;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
 /* Class: Client */
@@ -94,6 +97,19 @@ public class Client {
             receive = gson.fromJson(line, receive.getClass());
         } catch (IOException e) {}
         return receive.getUser();
+    }
+
+    public ArrayList<Forum> forumsRequest(int userId, String countryCode, String region, String locale) {
+        Message msg = new Message("forumrequest", null);
+        msg.setForumReq(new ForumRequest(userId, countryCode, region, locale));
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        Message receive = new Message();
+        try {
+            String line = in.readLine();
+            receive = gson.fromJson(line, receive.getClass());
+        } catch (IOException e) {}
+        return receive.getForumReq().getList();
     }
 
     /**

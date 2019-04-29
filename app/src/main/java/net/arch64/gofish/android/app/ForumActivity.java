@@ -34,6 +34,7 @@ import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
 import net.arch64.gofish.android.client.Cookie;
+import net.arch64.gofish.android.forums.Forum;
 import net.arch64.gofish.android.forums.ForumAdapter;
 import net.arch64.gofish.android.users.User;
 
@@ -47,6 +48,7 @@ public class ForumActivity extends AppCompatActivity {
     private LocationListener locLst;
     private TextView locTextView;
     private BottomNavigationView navigation;
+    private ListView forumListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class ForumActivity extends AppCompatActivity {
             }
         });
 
-        ListView forumListView = (ListView) findViewById(R.id.forumList);
+        forumListView = (ListView) findViewById(R.id.forumList);
         setListViewHeightBasedOnChildren(forumListView);
         forumListView.setOnTouchListener(new OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
@@ -96,21 +98,18 @@ public class ForumActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> forumList = new ArrayList<>();
-
-        String[] names = {"Joe", "Chris", "Rory", "Austin", "Megan",
-                "Benny", "Chrissy", "Yater", "Walter", "Bob",
-                "Jennifer", "Penny", "Tristen", "Katie", "Owen",
-                "Luke", "Pizza", "Obi Wan", "Darth Vader", "" + Cookie.getUserId()};
-        for (int i = 0; i < names.length; i++) {
-            forumList.add(names[i]);
-        }
+//        ArrayList<String> forumList = new ArrayList<>();
+//
+//        String[] names = {"Joe", "Chris", "Rory", "Austin", "Megan",
+//                "Benny", "Chrissy", "Yater", "Walter", "Bob",
+//                "Jennifer", "Penny", "Tristen", "Katie", "Owen",
+//                "Luke", "Pizza", "Obi Wan", "Darth Vader", "" + Cookie.getUserId()};
+//        for (int i = 0; i < names.length; i++) {
+//            forumList.add(names[i]);
+//        }
 
         //ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, forumList);
         //forumListView.setAdapter(listAdapter);
-
-        ForumAdapter forumAdapter = new ForumAdapter(forumList, this);
-        forumListView.setAdapter(forumAdapter);
 
         locMan = (LocationManager) getSystemService(LOCATION_SERVICE);
         locLst = new LocationListener() {
@@ -161,6 +160,25 @@ public class ForumActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), loc, Toast.LENGTH_LONG).show();
             if (!locTextView.getText().equals(loc)) {
                 locTextView.setText(loc);
+            }
+
+            Client client = new Client("10.0.2.2", 12345);
+            ArrayList<Forum> forumList = client.forumsRequest(Cookie.getUserId(), obj.getCountryCode(), obj.getAdminArea(), obj.getLocality());
+            client.close();
+
+            Forum first = null;
+            ForumAdapter adapter = (ForumAdapter)forumListView.getAdapter();
+
+            if (adapter != null) {
+                first = (Forum)adapter.getItem(0);
+            }
+
+            if (first != null && forumList.get(0).getId() != first.getId()) {
+                ForumAdapter forumAdapter = new ForumAdapter(forumList, this);
+                forumListView.setAdapter(forumAdapter);
+            } else if (first == null) {
+                ForumAdapter forumAdapter = new ForumAdapter(forumList, this);
+                forumListView.setAdapter(forumAdapter);
             }
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
