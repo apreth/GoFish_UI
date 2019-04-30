@@ -13,8 +13,12 @@ import android.widget.EditText;
 
 import com.example.gofish.R;
 
+import net.arch64.gofish.android.client.Client;
+import net.arch64.gofish.android.client.Cookie;
+
 public class WritePostActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
+    private EditText postText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +54,24 @@ public class WritePostActivity extends AppCompatActivity {
             }
         });
 
-        EditText postText = (EditText) findViewById(R.id.postEditText);
+        postText = (EditText) findViewById(R.id.postEditText);
         String post = postText.getText().toString();
 
         Button postSubmitt = (Button) findViewById(R.id.postSubmittBtn);
         postSubmitt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //submitt post
+                Intent prevIntent = getIntent();
+                String countryCode = prevIntent.getStringExtra("countryCode");
+                String region = prevIntent.getStringExtra("region");
+                String locale = prevIntent.getStringExtra("locale");
+
+                Client client = new Client("10.0.2.2", 12345);
+                client.makeForumPost(Cookie.getUserId(), postText.getText().toString(), countryCode, region, locale);
+                client.close();
+
+                Intent intent = new Intent(getApplicationContext(), ForumActivity.class);
+                startActivity(intent);
             }
         });
     }

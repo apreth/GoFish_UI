@@ -34,8 +34,10 @@ import com.example.gofish.R;
 
 import net.arch64.gofish.android.client.Client;
 import net.arch64.gofish.android.client.Cookie;
+import net.arch64.gofish.android.client.ForumRequest;
 import net.arch64.gofish.android.forums.Forum;
 import net.arch64.gofish.android.forums.ForumAdapter;
+import net.arch64.gofish.android.forums.Vote;
 import net.arch64.gofish.android.users.User;
 
 import java.io.IOException;
@@ -50,41 +52,16 @@ public class ForumActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
     private ListView forumListView;
 
+    private String countryCode;
+    private String region;
+    private String locale;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forum);
 
         locTextView = (TextView) findViewById(R.id.locTextView);
-
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.getMenu().getItem(0).setChecked(true);
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                //Log.d("NAV_TITLE", menuItem.getTitle().toString());
-                Intent intent = null;
-                switch(menuItem.getTitle().toString()) {
-                    case "Forums":
-                        intent = new Intent(getApplicationContext(), ForumActivity.class);
-                        break;
-                    case "Make Forum Post":
-                        intent = new Intent(getApplicationContext(), WritePostActivity.class);
-                        break;
-                    case "Profile Page":
-                        intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    default:
-                        intent = new Intent(getApplicationContext(), ForumActivity.class);
-                        break;
-                }
-                menuItem.setChecked(true);
-                if (intent != null) {
-                    startActivity(intent);
-                }
-                return false;
-            }
-        });
 
         forumListView = (ListView) findViewById(R.id.forumList);
         setListViewHeightBasedOnChildren(forumListView);
@@ -147,7 +124,39 @@ public class ForumActivity extends AppCompatActivity {
                 return;
             }
         }
-        locMan.requestLocationUpdates("gps", 5000, 0, locLst);
+        locMan.requestLocationUpdates("gps", 30000, 50, locLst);
+
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.getMenu().getItem(0).setChecked(true);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                //Log.d("NAV_TITLE", menuItem.getTitle().toString());
+                Intent intent = null;
+                switch(menuItem.getTitle().toString()) {
+                    case "Forums":
+                        intent = new Intent(getApplicationContext(), ForumActivity.class);
+                        break;
+                    case "Make Forum Post":
+                        intent = new Intent(getApplicationContext(), WritePostActivity.class);
+                        intent.putExtra("countryCode", countryCode);
+                        intent.putExtra("region", region);
+                        intent.putExtra("locale", locale);
+                        break;
+                    case "Profile Page":
+                        intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
+                    default:
+                        intent = new Intent(getApplicationContext(), ForumActivity.class);
+                        break;
+                }
+                menuItem.setChecked(true);
+                if (intent != null) {
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
     }
 
     public void getLocale(double lat, double lng) {
@@ -163,8 +172,15 @@ public class ForumActivity extends AppCompatActivity {
             }
 
             Client client = new Client("10.0.2.2", 12345);
-            ArrayList<Forum> forumList = client.forumsRequest(Cookie.getUserId(), obj.getCountryCode(), obj.getAdminArea(), obj.getLocality());
+            ForumRequest forumReq = client.forumsRequest(Cookie.getUserId(), obj.getCountryCode(), obj.getAdminArea(), obj.getLocality());
             client.close();
+
+            countryCode = obj.getCountryCode();
+            region = obj.getAdminArea();
+            locale = obj.getLocality();
+
+            ArrayList<Forum> forumList = forumReq.getList();
+            ArrayList<Vote> votesList = forumReq.getVotes();
 
             Forum first = null;
             ForumAdapter adapter = (ForumAdapter)forumListView.getAdapter();
@@ -174,10 +190,10 @@ public class ForumActivity extends AppCompatActivity {
             }
 
             if (first != null && forumList.get(0).getId() != first.getId()) {
-                ForumAdapter forumAdapter = new ForumAdapter(forumList, this);
+                ForumAdapter forumAdapter = new ForumAdapter(forumList, votesList,this);
                 forumListView.setAdapter(forumAdapter);
             } else if (first == null) {
-                ForumAdapter forumAdapter = new ForumAdapter(forumList, this);
+                ForumAdapter forumAdapter = new ForumAdapter(forumList, votesList,this);
                 forumListView.setAdapter(forumAdapter);
             }
         } catch (IOException e) {

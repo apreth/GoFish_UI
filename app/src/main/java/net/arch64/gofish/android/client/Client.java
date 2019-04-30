@@ -6,6 +6,7 @@ package net.arch64.gofish.android.client;
 import android.util.Log;
 
 import net.arch64.gofish.android.forums.Forum;
+import net.arch64.gofish.android.forums.Vote;
 import net.arch64.gofish.android.users.User;
 
 import java.io.BufferedReader;
@@ -99,7 +100,7 @@ public class Client {
         return receive.getUser();
     }
 
-    public ArrayList<Forum> forumsRequest(int userId, String countryCode, String region, String locale) {
+    public ForumRequest forumsRequest(int userId, String countryCode, String region, String locale) {
         Message msg = new Message("forumrequest", null);
         msg.setForumReq(new ForumRequest(userId, countryCode, region, locale));
         out.write(gson.toJson(msg) + "\n");
@@ -109,7 +110,111 @@ public class Client {
             String line = in.readLine();
             receive = gson.fromJson(line, receive.getClass());
         } catch (IOException e) {}
-        return receive.getForumReq().getList();
+        return receive.getForumReq();
+    }
+
+    public void makeForumPost(int userId, String content, String countryCode, String region, String locale) {
+        Message msg = new Message("makeforumpost", null);
+
+        Forum forum = new Forum();
+        forum.setUserId(userId);
+        forum.setContent(content);
+        forum.setCountryCode(countryCode);
+        forum.setRegion(region);
+        forum.setLocale(locale);
+
+        ForumRequest forumReq = new ForumRequest();
+        forumReq.setPost(forum);
+        msg.setForumReq(forumReq);
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        try {
+            String line = in.readLine();
+        } catch (IOException e) {}
+    }
+
+    public void upvote(int postId, int userId) {
+        Message msg = new Message("upvote", null);
+
+        User user = new User();
+        user.setId(userId);
+
+        ForumRequest forumReq = new ForumRequest();
+        Vote vote = new Vote();
+        vote.setPostId(postId);
+        vote.setUser(user);
+        vote.setVote(2);
+        forumReq.setVote(vote);
+        msg.setForumReq(forumReq);
+
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        try {
+            String line = in.readLine();
+        } catch (IOException e) {}
+    }
+
+    public void de_upvote(int postId, int userId) {
+        Message msg = new Message("deupvote", null);
+
+        User user = new User();
+        user.setId(userId);
+
+        ForumRequest forumReq = new ForumRequest();
+        Vote vote = new Vote();
+        vote.setPostId(postId);
+        vote.setUser(user);
+        vote.setVote(0);
+        forumReq.setVote(vote);
+        msg.setForumReq(forumReq);
+
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        try {
+            String line = in.readLine();
+        } catch (IOException e) {}
+    }
+
+    public void downvote(int postId, int userId) {
+        Message msg = new Message("downvote", null);
+
+        User user = new User();
+        user.setId(userId);
+
+        ForumRequest forumReq = new ForumRequest();
+        Vote vote = new Vote();
+        vote.setPostId(postId);
+        vote.setUser(user);
+        vote.setVote(1);
+        forumReq.setVote(vote);
+        msg.setForumReq(forumReq);
+
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        try {
+            String line = in.readLine();
+        } catch (IOException e) {}
+    }
+
+    public void de_downvote(int postId, int userId) {
+        Message msg = new Message("dedownvote", null);
+
+        User user = new User();
+        user.setId(userId);
+
+        ForumRequest forumReq = new ForumRequest();
+        Vote vote = new Vote();
+        vote.setPostId(postId);
+        vote.setUser(user);
+        vote.setVote(0);
+        forumReq.setVote(vote);
+        msg.setForumReq(forumReq);
+
+        out.write(gson.toJson(msg) + "\n");
+        out.flush();
+        try {
+            String line = in.readLine();
+        } catch (IOException e) {}
     }
 
     /**
