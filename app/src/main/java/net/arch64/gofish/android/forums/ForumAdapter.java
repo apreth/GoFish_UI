@@ -17,6 +17,8 @@ import net.arch64.gofish.android.client.Client;
 import net.arch64.gofish.android.client.Cookie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ForumAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<Forum> list = new ArrayList<Forum>();
@@ -63,19 +65,21 @@ public class ForumAdapter extends BaseAdapter implements ListAdapter {
 
         title.setText(post.getUsername() + " @ " + post.getTimeStamp());
         content.setText(post.getContent());
-        ratio.setText((int)post.getLikes() + " : " + (int)post.getDislikes());
+        ratio.setText((int) post.getLikes() + " : " + (int) post.getDislikes());
 
         for (Vote vote : votes) {
             if (vote != null) {
-                if (vote.getPostId() == post.getId()) {
+                if (vote.getPostId() == post.getId() && vote.getUser().getId() == Cookie.getUserId()) {
                     if (vote.getVote() == 1) {
                         downvote.setText("Downvoted ✗");
                         downvote.setBackgroundColor(view.getResources().getColor(R.color.colorAccent));
                         upvote.setEnabled(false);
+                        break;
                     } else if (votes.get(position).getVote() == 2) {
                         upvote.setText("Upvoted ✔");
                         upvote.setBackgroundColor(view.getResources().getColor(R.color.colorPrimary));
                         downvote.setEnabled(false);
+                        break;
                     }
                 }
             }

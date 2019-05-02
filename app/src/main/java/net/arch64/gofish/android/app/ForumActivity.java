@@ -182,6 +182,12 @@ public class ForumActivity extends AppCompatActivity {
             ArrayList<Forum> forumList = forumReq.getList();
             ArrayList<Vote> votesList = forumReq.getVotes();
 
+            if (forumList != null) {
+                forumList = dedup(forumList);
+            }
+
+            Log.d("FORUMLISTSIZE", forumList.size() + "");
+
             Forum first = null;
             ForumAdapter adapter = (ForumAdapter)forumListView.getAdapter();
 
@@ -199,6 +205,20 @@ public class ForumActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static ArrayList<Forum> dedup(ArrayList<Forum> forumList) {
+        ArrayList<Integer> marked = new ArrayList<>();
+        for (int i = 0; i < forumList.size(); i++) {
+            int id = forumList.get(i).getId();
+            for (int j = 0; j < marked.size(); j++) {
+                if (id == marked.get(j)) {
+                    forumList.remove(i);
+                }
+            }
+            marked.add(id);
+        }
+        return forumList;
     }
 
     /**** Method for Setting the Height of the ListView dynamically.
